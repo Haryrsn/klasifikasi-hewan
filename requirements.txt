@@ -1,3 +1,2 @@
 google-generativeai
 pillow
-scikit-learn
