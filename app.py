@@ -166,7 +166,7 @@ if gambar_siap:
 ### 🐾 Nama: {hewan_ditemukan['nama']}
 
 * **🧬 Kelompok:** {hewan_ditemukan['kelompok']}
-* **🍽️ Jenis Makanan:** **{hewan_ditemukan['makanan']}
+* **🍽️ Jenis Makanan:** {hewan_ditemukan['makanan']}
 * **🌟 Fakta Seru:** 
 {hewan_ditemukan['fakta']}
             """
