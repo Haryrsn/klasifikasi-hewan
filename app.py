@@ -147,8 +147,7 @@ if gambar_siap:
             # Mencocokkan nama file dengan kata kunci di basis data akbar
             hewan_ditemukan = None
             for kunci in database_hewan.keys():
-            if kunci in nama_file_foto:
-                hewan_ditemukan = database_hewan[kunci]
+            if kunci in nama_file_foto:hewan_ditemukan = database_hewan[kunci]
                 break
             # Jika menggunakan kamera langsung atau nama file tidak terdaftar
 if not hewan_ditemukan:
