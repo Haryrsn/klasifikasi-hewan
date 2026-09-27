@@ -152,33 +152,35 @@ if gambar_siap:
                     break
                     
             # Jika menggunakan kamera langsung atau nama file tidak terdaftar
-if not hewan_ditemukan:
-hewan_ditemukan = {
-        "nama": "🐾 Sahabat Makhluk Hidup Misterius",
-        "kelompok": "Mamalia atau Unggas (Tergantung bentuk fisiknya. Jika berbulu sayap dan bertelur berarti Unggas, jika berambut dan melahirkan/menyusui berarti Mamalia!)",
-        "makanan": "Herbivora (tumbuhan), Karnivora (daging), atau Omnivora (segala) berdasarkan struktur tubuhnya.",
-        "fakta": "1. Setiap makhluk hidup di bumi diciptakan unik dan memiliki tugas penting untuk menjaga kelestarian alam.\n2. Menjaga kebersihan dan menyayangi lingkungan sekitar membuat bumi kita tetap indah!"
-    }
+            if not hewan_ditemukan:
+                hewan_ditemukan = {
+                    "nama": "🐾 Sahabat Makhluk Hidup Misterius",
+                    "kelompok": "Mamalia atau Unggas (Tergantung bentuk fisiknya. Jika berbulu sayap dan bertelur berarti Unggas, jika berambut dan melahirkan/menyusui berarti Mamalia!)",
+                    "makanan": "Herbivora (tumbuhan), Karnivora (daging), atau Omnivora (segala) berdasarkan struktur tubuhnya.",
+                    "fakta": "1. Setiap makhluk hidup di bumi diciptakan unik dan memiliki tugas penting untuk menjaga kelestarian alam.\n2. Menjaga kebersihan dan menyayangi lingkungan sekitar membuat bumi kita tetap indah!"
+               }
 
-st.success("✨ Lembar Pengetahuan Berhasil Dibuat!")
+            st.success("✨ Lembar Pengetahuan Berhasil Dibuat!")
 
-hasil_teks = f"""
+            hasil_teks = f"""
+### 🐾 Nama: {hewan_ditemukan['nama']}
 
-🐾 Nama: {hewan_ditemukan['nama']}
-🧬 Kelompok: {hewan_ditemukan['kelompok']}
-🍽️ Jenis Makanan: {hewan_ditemukan['makanan']}
-🌟 Fakta Seru: {hewan_ditemukan['fakta']}
-"""
-
-st.markdown(hasil_teks)# 🔊 Sistem Narasi Suara Otomatis
-teks_suara = hasil_teks.replace('#', '').replace('*', '').replace('\n', ' ')
-audio_script = f"""
-
-var msg = new SpeechSynthesisUtterance({repr(teks_suara)});
-msg.lang = 'id-ID';
-msg.rate = 0.95;
-window.speechSynthesis.cancel();
-window.speechSynthesis.speak(msg);
-"""
-st.components.v1.html(audio_script, height=0)
-st.info("🔊 Suara otomatis berbunyi membacakan lembar ilmu pengetahuan di atas.")
+* **🧬 Kelompok:** {hewan_ditemukan['kelompok']}
+* **🍽️ Jenis Makanan:** **{hewan_ditemukan['makanan']}
+* **🌟 Fakta Seru:** 
+{hewan_ditemukan['fakta']}
+            """
+            st.markdown(hasil_teks)
+            # 🔊 Sistem Narasi Suara Otomatis
+            teks_suara = hasil_teks.replace('#', '').replace('*', '').replace('\n', ' ')
+            audio_script = f"""
+            <script>
+                var msg = new SpeechSynthesisUtterance({repr(teks_suara)});
+                msg.lang = 'id-ID';
+                msg.rate = 0.95;
+                window.speechSynthesis.cancel();
+                window.speechSynthesis.speak(msg);
+            </script>
+            """
+            st.components.v1.html(audio_script, height=0)
+            st.info("🔊 Suara otomatis berbunyi membacakan lembar ilmu pengetahuan di atas.")
