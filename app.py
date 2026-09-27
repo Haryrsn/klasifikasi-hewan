@@ -1,5 +1,7 @@
 import streamlit as st
 from PIL import Image
+import tensorflow as tf
+import numpy as np
 import time
 
 # Konfigurasi Tampilan Halaman Web Ceria Ramah Anak SD
