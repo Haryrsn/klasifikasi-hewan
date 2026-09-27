@@ -114,5 +114,66 @@ database_hewan = {
     "musang": {"nama": "𦝝 Musang", "kelompok": "Mamalia - Melahirkan", "makanan": "Omnivora (Buah/Ayam)", "fakta": "Jago memanjat pohon dan loteng rumah pada malam hari untuk berburu buah matang atau tikus."},
     "tapir": {"nama": "🐖 Tapir", "kelompok": "Mamalia - Melahirkan", "makanan": "Herbivora (Daun muda)", "fakta": "Badannya mirip babi tapi punya belalai pendek. Anak tapir lahir dengan corak garis totol mirip semangka."},
     "koyote": {"nama": "🐺 Koyote", "kelompok": "Mamalia - Melahirkan", "makanan": "Karnivora (Hewan kecil)", "fakta": "Serigala gurun berukuran kecil yang sangat cerdik beradaptasi tinggal di dekat lingkungan kota besar."},
-    "meerkat": {"nama": "🦦 Meerkat", "kelompok": "Mamalia - Melahirkan", "makanan": "Karnivora / Insektivora (Kalajengking)", "fakta": "Selalu berdiri tegak dengan kaki belakangnya untuk bergantian bertugas menjadi penjaga pos keamanan kelompoknya."}}
+    "meerkat": {"nama": "🦦 Meerkat", "kelompok": "Mamalia - Melahirkan", "makanan": "Karnivora / Insektivora (Kalajengking)", "fakta": "Selalu berdiri tegak dengan kaki belakangnya untuk bergantian bertugas menjadi penjaga pos keamanan kelompoknya."}
+}
+#📸 Pilihan Metode Pemasukkan Foto
+pilihan_input = st.radio("Pilih Cara Memasukkan Foto:", ("📂 Pilih Foto dari Galeri", "📷 Gunakan Kamera Langsung"))
+
+gambar_siap = None
+nama_file_foto = ""
+
+if "Galeri" in pilihan_input:
+    file_terunggah = st.file_uploader("Pilih gambar (Tips: Beri nama file sesuai objeknya, contoh: manusia.jpg, ayam.jpg atau sapi.png):", type=["jpg", "jpeg", "png"])
+    if file_terunggah:
+        gambar_siap = Image.open(file_terunggah)
+        nama_file_foto = file_terunggah.name.lower()
+        st.image(gambar_siap, caption="Pratinjau Foto", use_container_width=True)
+else:
+    foto_kamera = st.camera_input("Arahkan kamera lalu jepret:")
+    if foto_kamera:
+        gambar_siap = Image.open(foto_kamera)
+        nama_file_foto = "kamera_live_hewan"
+            
+#🧠 Tombol Analisis Sistem Cerdas
+if gambar_siap:
+    tombol_analisis = st.button("🧠 Cari Tahu Rahasia Ini!", type="primary", use_container_width=True)
     
+    if tombol_analisis:
+        with st.spinner("⏳ Sistem sedang memindai... Mohon tunggu ya adik-anak!"):
+            time.sleep(1.0)
+            
+            # Mencocokkan nama file dengan kata kunci di basis data 
+            akbarhewan_ditemukan = Nonefor kunci in database_hewan.keys():
+            if kunci in nama_file_foto:
+                hewan_ditemukan = database_hewan[kunci]
+                break
+            # Jika menggunakan kamera langsung atau nama file tidak terdaftar
+if not hewan_ditemukan:
+    hewan_ditemukan = {
+        "nama": "🐾 Sahabat Makhluk Hidup Misterius",
+        "kelompok": "Mamalia atau Unggas (Tergantung bentuk fisiknya. Jika berbulu sayap dan bertelur berarti Unggas, jika berambut dan melahirkan/menyusui berarti Mamalia!)",
+        "makanan": "Herbivora (tumbuhan), Karnivora (daging), atau Omnivora (segala) berdasarkan struktur tubuhnya.",
+        "fakta": "1. Setiap makhluk hidup di bumi diciptakan unik dan memiliki tugas penting untuk menjaga kelestarian alam.\n2. Menjaga kebersihan dan menyayangi lingkungan sekitar membuat bumi kita tetap indah!"
+    }
+
+st.success("✨ Lembar Pengetahuan Berhasil Dibuat!")
+
+# Tampilan hasil papan mading kelas yang sangat rapi
+hasil_teks = f"""
+
+🐾 Nama: {hewan_ditemukan['nama']}🧬 Kelompok: {hewan_ditemukan['kelompok']}
+🍽️ Jenis Makanan: {hewan_ditemukan['makanan']}
+🌟 Fakta Seru: {hewan_ditemukan['fakta']}"""
+st.markdown(hasil_teks)
+
+# 🔊 Sistem Narasi Suara 
+Otomatisteks_suara = hasil_teks.replace('#', '').replace('*', '').replace('\n', ' ')
+audio_script = f"""
+var msg = new SpeechSynthesisUtterance({repr(teks_suara)});
+msg.lang = 'id-ID';
+msg.rate = 0.95;
+window.speechSynthesis.cancel();
+window.speechSynthesis.speak(msg);
+"""
+st.components.v1.html(audio_script, height=0)
+st.info("🔊 Suara otomatis berbunyi membacakan lembar ilmu pengetahuan di atas.")
