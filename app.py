@@ -142,8 +142,9 @@ if gambar_siap:
         with st.spinner("⏳ Sistem sedang memindai... Mohon tunggu ya adik-anak!"):
             time.sleep(1.0)
             
-            # Mencocokkan nama file dengan kata kunci di basis data 
-            akbarhewan_ditemukan = Nonefor kunci in database_hewan.keys():
+            # Mencocokkan nama file dengan kata kunci di basis data akbar
+            hewan_ditemukan = None
+            for kunci in database_hewan.keys():
             if kunci in nama_file_foto:
                 hewan_ditemukan = database_hewan[kunci]
                 break
@@ -158,17 +159,18 @@ if not hewan_ditemukan:
 
 st.success("✨ Lembar Pengetahuan Berhasil Dibuat!")
 
-# Tampilan hasil papan mading kelas yang sangat rapi
 hasil_teks = f"""
 
-🐾 Nama: {hewan_ditemukan['nama']}🧬 Kelompok: {hewan_ditemukan['kelompok']}
+🐾 Nama: {hewan_ditemukan['nama']}
+🧬 Kelompok: {hewan_ditemukan['kelompok']}
 🍽️ Jenis Makanan: {hewan_ditemukan['makanan']}
-🌟 Fakta Seru: {hewan_ditemukan['fakta']}"""
-st.markdown(hasil_teks)
+🌟 Fakta Seru: {hewan_ditemukan['fakta']}
+"""
 
-# 🔊 Sistem Narasi Suara 
-Otomatisteks_suara = hasil_teks.replace('#', '').replace('*', '').replace('\n', ' ')
+st.markdown(hasil_teks)# 🔊 Sistem Narasi Suara Otomatis
+teks_suara = hasil_teks.replace('#', '').replace('*', '').replace('\n', ' ')
 audio_script = f"""
+
 var msg = new SpeechSynthesisUtterance({repr(teks_suara)});
 msg.lang = 'id-ID';
 msg.rate = 0.95;
