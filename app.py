@@ -184,6 +184,5 @@ if gambar_siap:
             </script>
             """
             st.components.v1.html(audio_script, height=0)
-            st.info("🔊 Suara otomatis berbunyi membacakan lembar ilmu pengetahuan di atas.")
-            st.components.v1.html(audio_script, height=0)
-            st.info("🔊 Suara otomatis berbunyi membacakan lembar ilmu pengetahuan di atas.")
+            st.info("🔊 Maaf webnya gak sempurna, Karna yang sempurna hanya Allah Swt.")
+            
