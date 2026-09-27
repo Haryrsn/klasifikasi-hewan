@@ -153,7 +153,7 @@ if gambar_siap:
                     
             # Jika menggunakan kamera langsung atau nama file tidak terdaftar
 if not hewan_ditemukan:
-    hewan_ditemukan = {
+hewan_ditemukan = {
         "nama": "🐾 Sahabat Makhluk Hidup Misterius",
         "kelompok": "Mamalia atau Unggas (Tergantung bentuk fisiknya. Jika berbulu sayap dan bertelur berarti Unggas, jika berambut dan melahirkan/menyusui berarti Mamalia!)",
         "makanan": "Herbivora (tumbuhan), Karnivora (daging), atau Omnivora (segala) berdasarkan struktur tubuhnya.",
