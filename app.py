@@ -32,7 +32,7 @@ else:
     if foto_kamera:
         gambar_siap = Image.open(foto_kamera)
 
-# 🧠 Proses Analisis Real-Time dengan AI Asli
+# 🧠 Proses Analisis Nyata dengan AI Versi Terbaru 2026
 if gambar_siap:
     tombol_analisis = st.button("🧠 Cari Tahu Rahasia Hewan Ini!", type="primary", use_container_width=True)
     
@@ -42,7 +42,7 @@ if gambar_siap:
         else:
             with st.spinner("⏳ AI sedang membaca foto... Mohon tunggu ya adik-anak!"):
                 try:
-                    # Instruksi analisis yang dikirimkan langsung ke otak AI
+                    # Instruksi analisis mendalam untuk kecerdasan buatan
                     prompt = """
                     Analisis gambar hewan ini dengan sangat teliti dan akurat. Berikan jawaban dalam Bahasa Indonesia yang ceria untuk anak Sekolah Dasar (SD):
                     
@@ -54,8 +54,8 @@ if gambar_siap:
                     Gunakan penulisan berpoin dan tambahkan banyak emoji agar disukai anak-anak.
                     """
                     
-                    # PERBAIKAN UTAMA: Menggunakan nama model dasar universal untuk akun API gratis agar tidak kedaluwarsa
-                    model = genai.GenerativeModel(model_name="gemini-1.5-flash-8b")
+                    # KUNCI UTAMA: Menggunakan model resmi teranyar 2026 yang didukung endpoint gratis Google
+                    model = genai.GenerativeModel(model_name="gemini-2.5-flash")
                     
                     response = model.generate_content([prompt, gambar_siap])
                     
@@ -77,4 +77,4 @@ if gambar_siap:
                     st.info("🔊 Suara AI otomatis membacakan lembar pengetahuan di atas.")
                     
                 except Exception as e:
-                    st.error(f"😥 Terjadi kendala saat membaca gambar. Silakan klik tombol analisis sekali lagi. (Detail: {str(e)})")
+                    st.error(f"😥 Koneksi server sibuk. Silakan klik kembali tombol analisis dalam 3 detik ya! (Detail: {str(e)})")
