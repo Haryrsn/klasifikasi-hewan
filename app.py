@@ -1,7 +1,5 @@
 import streamlit as st
 from PIL import Image
-from sklearn.feature_extraction.text import HashingVectorizer
-import numpy as np
 import time
 
 # Konfigurasi Tampilan Halaman Web Ceria Ramah Anak SD
@@ -119,60 +117,62 @@ database_hewan = {
     "meerkat": {"nama": "🦦 Meerkat", "kelompok": "Mamalia - Melahirkan", "makanan": "Karnivora / Insektivora (Kalajengking)", "fakta": "Selalu berdiri tegak dengan kaki belakangnya untuk bergantian bertugas menjadi penjaga pos keamanan kelompoknya."}
 }
 
-# =====================================================================
-# 📸 KODE PERINTAH UTAMA: MENGAKTIFKAN MATA AI VISION LOKAL RINGAN
-# =====================================================================
-
-# Pilihan Metode Pemasukkan Foto
+#📸 Pilihan Metode Pemasukkan Foto
 pilihan_input = st.radio("Pilih Cara Memasukkan Foto:", ("📂 Pilih Foto dari Galeri", "📷 Gunakan Kamera Langsung"))
 
 gambar_siap = None
-nama_identitas_visual = ""
+nama_file_foto = ""
 
 if "Galeri" in pilihan_input:
-    file_terunggah = st.file_uploader("Pilih gambar makhluk hidup atau hewan (Bebas nama file apa saja):", type=["jpg", "jpeg", "png"])
+    file_terunggah = st.file_uploader("Pilih gambar (Tips: Beri nama file sesuai objeknya, contoh: manusia.jpg, ayam.jpg atau sapi.png):", 
+    type=["jpg", "jpeg", "png"])
     if file_terunggah:
         gambar_siap = Image.open(file_terunggah)
-        st.image(gambar_siap, caption="Pratinjau Foto Sukses Dimuat", use_container_width=True)
-        # Trik Visual AI: Mengubah piksel warna gambar secara acak menjadi kode teks identitas unik di server
-        piksel_warna = np.array(gambar_siap.resize((10, 10)))
-        nama_identitas_visual = str(int(np.sum(piksel_warna)))
+        nama_file_foto = file_terunggah.name.lower()
+        st.image(gambar_siap, caption="Pratinjau Foto", 
+        use_container_width=True)
 else:
-    foto_kamera = st.camera_input("Arahkan kamera ke objek lalu jepret:")
+    foto_kamera = st.camera_input("Arahkan kamera lalu jepret:")
     if foto_kamera:
         gambar_siap = Image.open(foto_kamera)
-        piksel_warna = np.array(gambar_siap.resize((10, 10)))
-        nama_identitas_visual = str(int(np.sum(piksel_warna)))
-
-# 🧠 TOMBOL ANALISIS VISION OTOMATIS (Menebak Langsung dari Bentuk Gambar)
+        nama_file_foto = "kamera_live_hewan"
+            
+#🧠 Tombol Analisis Sistem Cerdas
 if gambar_siap:
-    tombol_analisis = st.button("🧠 Cari Tahu Rahasia Makhluk Hidup Ini!", type="primary", use_container_width=True)
+    tombol_analisis = st.button("🧠 Cari Tahu Rahasia Ini!", type="primary", use_container_width=True)
     
     if tombol_analisis:
-        with st.spinner("⏳ Mata AI sedang memindai bentuk objek foto..."):
-            time.sleep(1.0) # Efek visual pemindaian biar seru bagi murid
+        with st.spinner("⏳ Sistem sedang memindai... Mohon tunggu ya adik-anak!"):
+            time.sleep(1.0)
             
-            # Sistem AI lokal memetakan kode piksel warna ke kata kunci database Anda secara otomatis
-            daftar_kunci_hewan = list(database_hewan.keys())
-            indeks_cocok = int(nama_identitas_visual) % len(daftar_kunci_hewan)
-            kata_kunci_terpilih = daftar_kunci_hewan[indeks_cocok]
-            
-            # Mengambil data dari database bahasa Indonesia Anda
-            hewan_ditemukan = database_hewan[kata_kunci_terpilih]
-            
+            # Mencocokkan nama file dengan kata kunci di basis data akbar
+            hewan_ditemukan = None
+            for kunci in database_hewan.keys():
+                if kunci in nama_file_foto:
+                    hewan_ditemukan = database_hewan[kunci]
+                    break
+                    
+            # Jika menggunakan kamera langsung atau nama file tidak terdaftar
+            if not hewan_ditemukan:
+                hewan_ditemukan = {
+                    "nama": "🐾 Sahabat Makhluk Hidup Misterius",
+                    "kelompok": "Mamalia atau Unggas (Tergantung bentuk fisiknya. Jika berbulu sayap dan bertelur berarti Unggas, jika berambut dan melahirkan/menyusui berarti Mamalia!)",
+                    "makanan": "Herbivora (tumbuhan), Karnivora (daging), atau Omnivora (segala) berdasarkan struktur tubuhnya.",
+                    "fakta": "1. Setiap makhluk hidup di bumi diciptakan unik dan memiliki tugas penting untuk menjaga kelestarian alam.\n2. Menjaga kebersihan dan menyayangi lingkungan sekitar membuat bumi kita tetap indah!"
+               }
+
             st.success("✨ Lembar Pengetahuan Berhasil Dibuat!")
-            
+
             hasil_teks = f"""
 ### 🐾 Nama: {hewan_ditemukan['nama']}
 
 * **🧬 Kelompok:** {hewan_ditemukan['kelompok']}
-* **🍽️ Jenis Makanan:** **{hewan_ditemukan['makanan']}**
+* **🍽️ Jenis Makanan:** {hewan_ditemukan['makanan']}
 * **🌟 Fakta Seru:** 
 {hewan_ditemukan['fakta']}
             """
             st.markdown(hasil_teks)
-            
-            # 🔊 Sistem Narasi Suara Otomatis Terintegrasi
+            # 🔊 Sistem Narasi Suara Otomatis
             teks_suara = hasil_teks.replace('#', '').replace('*', '').replace('\n', ' ')
             audio_script = f"""
             <script>
@@ -183,5 +183,7 @@ if gambar_siap:
                 window.speechSynthesis.speak(msg);
             </script>
             """
+            st.components.v1.html(audio_script, height=0)
+            st.info("🔊 Suara otomatis berbunyi membacakan lembar ilmu pengetahuan di atas.")
             st.components.v1.html(audio_script, height=0)
             st.info("🔊 Suara otomatis berbunyi membacakan lembar ilmu pengetahuan di atas.")
