@@ -123,11 +123,13 @@ gambar_siap = None
 nama_file_foto = ""
 
 if "Galeri" in pilihan_input:
-    file_terunggah = st.file_uploader("Pilih gambar (Tips: Beri nama file sesuai objeknya, contoh: manusia.jpg, ayam.jpg atau sapi.png):", type=["jpg", "jpeg", "png"])
+    file_terunggah = st.file_uploader("Pilih gambar (Tips: Beri nama file sesuai objeknya, contoh: manusia.jpg, ayam.jpg atau sapi.png):", 
+    type=["jpg", "jpeg", "png"])
     if file_terunggah:
         gambar_siap = Image.open(file_terunggah)
         nama_file_foto = file_terunggah.name.lower()
-        st.image(gambar_siap, caption="Pratinjau Foto", use_container_width=True)
+        st.image(gambar_siap, caption="Pratinjau Foto", 
+        use_container_width=True)
 else:
     foto_kamera = st.camera_input("Arahkan kamera lalu jepret:")
     if foto_kamera:
